@@ -1,3 +1,4 @@
+# Represents a task with scheduling information
 class Task:
 
     def __init__(self, task_id, priority, arrival, deadline):
@@ -12,25 +13,31 @@ class Task:
         return f"{self.task_id}  Priority={self.priority}"
 
 
+# Max-priority queue implemented with a binary heap
 class PriorityQueue:
 
     def __init__(self):
 
         self.heap = []
 
+    # Return parent index
     def parent(self, index):
         return (index - 1) // 2
 
+    # Return left child index
     def left(self, index):
         return (2 * index) + 1
 
+    # Return right child index
     def right(self, index):
         return (2 * index) + 2
 
+    # Check if queue is empty
     def is_empty(self):
 
         return len(self.heap) == 0
 
+    # Insert a new task and move it upward if required
     def insert(self, task):
 
         self.heap.append(task)
@@ -45,6 +52,7 @@ class PriorityQueue:
 
             current = p
 
+    # Restore heap order after removing the root
     def heapify_down(self, index):
 
         size = len(self.heap)
@@ -69,6 +77,7 @@ class PriorityQueue:
 
             index = biggest
 
+    # Remove and return the highest-priority task
     def extract_max(self):
 
         if self.is_empty():
@@ -85,6 +94,7 @@ class PriorityQueue:
 
         return highest
 
+    # Increase the priority of an existing task
     def increase_priority(self, task_id, new_priority):
 
         for index in range(len(self.heap)):
@@ -107,6 +117,7 @@ class PriorityQueue:
                 break
 
 
+# Example execution
 if __name__ == "__main__":
 
     scheduler = PriorityQueue()
@@ -117,7 +128,6 @@ if __name__ == "__main__":
     scheduler.insert(Task("T4", 60, 4, 12))
 
     print("Highest Priority Task")
-
     print(scheduler.extract_max())
 
     scheduler.increase_priority("T1", 95)
@@ -125,5 +135,4 @@ if __name__ == "__main__":
     print("\nAfter Increasing Priority")
 
     while not scheduler.is_empty():
-
         print(scheduler.extract_max())
